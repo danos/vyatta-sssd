@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+#
+# Copyright (c) 2019 AT&T intellectual property.
+# All rights reserved.
+#
+# Copyright (c) 2014 Brocade Communications Systems, Inc.
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+use warnings;
+use strict;
+
+use lib "/opt/vyatta/share/perl5";
+
+use Vyatta::SSSD::PAM;
+
+my $config_space = shift;
+my $service = shift;
+my $instance = shift;
+
+die("usage: $0 <config space> <service> <instance>")
+   unless (defined($config_space) and defined($service) and defined($instance));
+
+setup_pam_for_service($config_space, $service, $instance);

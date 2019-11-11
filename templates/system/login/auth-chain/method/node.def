@@ -1,0 +1,6 @@
+multi:
+type: txt
+help: Authentication method
+allowed: echo local tacplus
+val_help: local; Local authentication
+val_help: tacplus; TACACS+ authentication

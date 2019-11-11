@@ -1,0 +1,7 @@
+# Type Path Mode UID GID Age Argument
+
+# remove old SSSD databases
+r! /var/lib/sss/db/*.ldb
+
+# remove aaa-home directory
+D /var/tmp/aaa-home 1751 root root

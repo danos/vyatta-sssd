@@ -1,0 +1,45 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+# Copyright (c) 2019 AT&T intellectual property.
+# All rights reserved.
+#
+# Copyright (c) 2014-2015 Brocade Communications Systems, Inc.
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+import os
+import sys
+
+from Vyatta import SSSD
+
+SSSD_DOMAIN_NAME = 'vyatta_system_tacplus'
+
+def main():
+
+	if len(sys.argv) < 2:
+		sys.stderr.write('Expected status argument. Aborting.\n')
+		sys.exit(1)
+
+	sssdobj = SSSD.SSSD()
+
+	try:
+		sssdobj.delete_domain(SSSD_DOMAIN_NAME)
+	except:
+		pass
+
+	status = sys.argv[1]
+
+	if status != "deleted":
+		sssdobj.setup_tacplus(SSSD_DOMAIN_NAME, {}) # extra options empty
+
+
+	sssdobj.commit()
+	sys.exit(0)
+
+
+if __name__ == '__main__':
+	main()
+
+

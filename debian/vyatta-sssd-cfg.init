@@ -1,0 +1,35 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:             vyatta-sssd
+# Required-Start:       $local_fs
+# Required-Stop:        $local_fs
+# X-Start-Before:       $network
+# X-Stop-After:         $network
+# Default-Start:        1 2 3 4 5
+# Default-Stop:
+# Description:          Cleans up vyatta-sssd services
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+# Remove SSSD configs early in boot process
+# if it is used, then re-enabled later in boot
+case "$1" in
+  start)
+    rm -f /etc/sssd/sssd.conf
+    cat > /etc/default/sssd << EOF
+# No SSS domains configured - disabling SSSD -vyatta-sssd.init
+exit 0
+EOF
+
+    exit 0
+    ;;
+  stop|restart|force-reload)
+    exit 0
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+    exit 3
+    ;;
+esac

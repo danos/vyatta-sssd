@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+#
+# Copyright (c) 2019 AT&T intellectual property.
+# All rights reserved.
+#
+# Copyright (c) 2014, 2017 Brocade Communications Systems, Inc.
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+use strict;
+use lib "/opt/vyatta/share/perl5";
+
+use Vyatta::Config;
+use Vyatta::SSSD::Local;
+
+
+my $cmd = shift;
+
+my $config = new Vyatta::Config;
+
+# Handle groups
+$config->setLevel("resources service-users local group");
+my @groups = $config->returnValues();
+foreach my $group ( @groups ) {
+    add_group($group);
+}
+
+# Remove any group that do not exist in current configuration
+# This can happen if user added but configuration not saved
+# and system is rebooted
+foreach my $group ( local_groups() ) {
+    next if $config->exists($group);
+    delete_group($group);
+}
+
+
+# Handle users
+$config->setLevel("resources service-users local user");
+
+my %users = $config->listNodeStatus();
+foreach my $user ( keys %users ) {
+    my $state = $users{$user};
+    if ( $state eq 'deleted' ) {
+      delete_user($user);
+      next;
+    }
+
+    next unless ( $state eq 'added' || $state eq 'changed' );
+
+    update_user($user);
+}
+
+# Remove any users that do not exist in current configuration
+# This can happen if user added but configuration not saved
+# and system is rebooted
+foreach my $user ( local_users() ) {
+    # did we see this user in configuration?
+    next if defined $users{$user};
+
+    delete_user($user);
+}
+
+

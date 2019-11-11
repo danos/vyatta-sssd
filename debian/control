@@ -1,0 +1,37 @@
+Source: vyatta-sssd
+Section: python
+Priority: extra
+Maintainer: Vyatta Package Maintainers <DL-vyatta-help@att.com>
+Build-Depends: debhelper (>= 9), python, dh-python, dh-systemd, dh-yang, python-setuptools, cpio
+Standards-Version: 3.9.8
+
+Package: python-vyatta-sssd
+Architecture: all
+Depends: ${misc:Depends}, python, python-sss, libpam-sss, python-ipaddr
+XB-Python-Version: ${python:Versions}
+Description: Vyatta configuration wrapper for SSSD
+ Vyatta configuration wrapper for System Secure Services Daemon.
+ Used to manage service-users and others.
+
+Package: vyatta-sssd-cfg
+Architecture: all
+Pre-Depends: sssd-common
+Depends: ${misc:Depends}, python, python-vyatta-sssd, libnss-sss, sssd-tools | sssd, sssd-ldap, ldb-tools, lsb-base (>= 3.0-6), libauthen-pam-perl, libpam-runtime, vyatta-cfg
+Description: Vyatta configuration template for SSSD
+ Vyatta configuration tempalte for System Secure Services Daemon.
+
+Package: vyatta-system-login-sssd-v1-yang
+Architecture: all
+Depends: ${misc:Depends}, vyatta-sssd-cfg (>= ${source:Version}), ${yang:Depends}
+Replaces: vyatta-sssd-cfg (<< 0.31)
+Conflicts: vyatta-sssd-cfg (<< 0.31)
+Description: vyatta-system-login-sssd-v1 module
+ The YANG module for vyatta-system-login-sssd-v1
+
+Package: vyatta-system-login-sssd-noyang
+Architecture: all
+Depends: ${misc:Depends}, vyatta-sssd-cfg (>= ${source:Version})
+Replaces: vyatta-sssd-cfg (<< 0.31)
+Conflicts: vyatta-sssd-cfg (<< 0.31)
+Description: vyatta-system-login-sssd non-yang CLI
+ The non-YANG CLI for vyatta-system-login-sssd

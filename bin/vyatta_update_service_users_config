@@ -1,0 +1,82 @@
+#!/usr/bin/perl
+#
+# Copyright (c) 2019 AT&T intellectual property.
+# All rights reserved.
+#
+# Copyright (c) 2014, 2017 Brocade Communications Systems, Inc.
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+use warnings;
+use strict;
+
+use lib "/opt/vyatta/share/perl5";
+
+use Vyatta::SSSD::Local;
+use Getopt::Long;
+
+my $remove_group;
+my $remove_other_method;
+
+# Config space of services to update/sync config changes
+my @services_to_update = ('interfaces openvpn');
+
+sub ref_check_group_with_user_section {
+	my $group = shift;
+        my $failed = undef;
+
+	my $config = new Vyatta::Config;
+	$config->setLevel("resources service-users local user");
+	my @users = $config->listNodes();
+	foreach my $user ( @users ) {
+	    my @current_groups = $config->returnValues("$user group");
+            next unless grep { $_ eq $group } @current_groups;
+            print 'Group is still referenced by local service-user "'. $user .'". Could not delete.';
+            $failed = 1;
+	}
+
+        exit(1) if $failed;
+}
+
+sub ref_check_with_services {
+	my $method = shift;
+	my $deleted_field = shift;
+	my $failed = undef;
+
+	foreach my $service ( @services_to_update ) {
+
+		my $config = new Vyatta::Config;
+		$config->setLevel("$service");
+		foreach my $instance ( $config->listNodes() ) {
+			my $service_instance_path = $service." ".$instance." auth";
+
+			$config->setLevel($service_instance_path);
+			return unless $config->exists("$method $deleted_field");
+			print '"'. $deleted_field .'" is still referenced by "'. $service_instance_path .'". Could not delete "'. $method .' '. $deleted_field .'"';
+			$failed = 1;
+		}
+		exit(1) if $failed;
+	}
+}
+
+my $cmd = shift;
+if ( $cmd eq "local group" ) {
+        GetOptions ("remove" => \$remove_group);
+
+
+	my $group = shift;
+        if (defined($remove_group)) {
+		ref_check_group_with_user_section($group);
+		ref_check_with_services("local group", $group);
+        }
+} else {
+        GetOptions ("remove" => \$remove_other_method);
+
+	my $method = $cmd;
+        my $field = shift;
+        if (defined($remove_other_method)) {
+		ref_check_with_services($method, $field);
+        }
+}
+

@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_VERBOSE=1
+
+sbindir             = /opt/vyatta/sbin
+datadir             = /opt/vyatta/share
+share_sssd_perl5dir = $(datadir)/perl5/Vyatta/SSSD
+
+PYTHON_DESTDIR = $(CURDIR)/debian/python-vyatta-sssd
+DESTDIR        = $(CURDIR)/debian/vyatta-sssd-cfg
+
+cpiop = find  . ! -regex '\(.*node\.def\..*\|.*~\|.*\.bak\|.*\.swp\|.*\#.*\#\)' -print0 | \
+  cpio -0pd
+
+%:
+	dh $@ --with-python2 --with=systemd --with=yang
+
+
+override_dh_installinit:
+	dh_installinit -- start  10 1 2 3
+
+override_dh_auto_install:
+	mkdir -p $(DESTDIR)/$(share_sssd_perl5dir)
+	install -m 644 lib/Vyatta/SSSD/*  $(DESTDIR)/$(share_sssd_perl5dir)
+	mkdir -p $(DESTDIR)/$(sbindir)
+	install -m 755 bin/vyatta_update_local_service_users $(DESTDIR)/$(sbindir)
+	install -m 755 bin/vyatta_update_service_users_config $(DESTDIR)/$(sbindir)
+	install -m 755 bin/vyatta_update_service_user_pam_config $(DESTDIR)/$(sbindir)
+	install -m 755 bin/vyatta_update_tacplus_server $(DESTDIR)/$(sbindir)
+	install -m 755 bin/vyatta_tacacs_pam_auth_update $(DESTDIR)/$(sbindir)
+	python setup.py install --install-layout=deb --install-scripts=/opt/vyatta/sbin/ --prefix=/usr --root=$(PYTHON_DESTDIR)
+	find $(PYTHON_DESTDIR) -name "*.pyc" -delete
+	install -D --mode=0644 debian/lintian $(DESTDIR)/usr/share/lintian/overrides/vyatta-sssd-cfg
