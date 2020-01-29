@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2019 AT&T intellectual property.
+# Copyright (c) 2019-2020 AT&T intellectual property.
 # All rights reserved.
 #
 # Copyright (c) 2014, 2017 by Brocade Communications Systems, Inc.
@@ -109,6 +109,9 @@ class SSSD(SSSDConfig.SSSDConfig):
 		else:
 			self.new_config()
 
+		# Always perform setup of the NSS service
+		self._setup_nss()
+
 	def try_set_domain_option(self, domain, opt, value):
 		try:
 			domain.set_option(opt, value)
@@ -201,6 +204,21 @@ class SSSD(SSSDConfig.SSSDConfig):
 
 
 		self.save_domain(tacplus_domain)
+
+
+	def _setup_nss(self):
+		try:
+			nss_serv = self.get_service("nss")
+		except SSSDConfig.NoServiceError:
+			nss_serv = self.new_service("nss")
+
+		# NSS requests for filtered users are ignored.
+		# "*" is ignored since a request for this user is generated
+		# when path completion is requested in Bash, due to a bug in
+		# the completion script. See Debian bug #825317.
+		# root is ignored by default so is also set here.
+		nss_serv.set_option("filter_users", "root,*")
+		self.save_service(nss_serv)
 
 
 	def commit(self):

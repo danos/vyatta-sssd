@@ -6,7 +6,7 @@ Copyright: 2018 AT&T Intellectual Property.
 License: BSD-3-clause
 
 Files: lib/vyatta/* Vyatta/*
-Copyright: 2019 AT&T Intellectual Property
+Copyright: 2019-2020 AT&T Intellectual Property
            2014, 2017 Brocade Communications Systems, Inc.
 License: LGPL-2.1
 
