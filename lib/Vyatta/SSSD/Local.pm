@@ -1,4 +1,4 @@
-# Copyright (c) 2019 AT&T intellectual property.
+# Copyright (c) 2019-2020 AT&T intellectual property.
 # All rights reserved.
 #
 # Copyright (c) 2014, 2017 Brocade Communications Systems, Inc.
@@ -43,7 +43,7 @@ my $CONFIG_SPACE = 'resources service-users';
 # Also the membership of all users to that group gets deleted.
 sub delete_group {
     my $group = shift;
-    my $rc = `sss_groupdel $group 2>&1 >/dev/null`;
+    my $rc = `sss_groupdel '$group' 2>&1 >/dev/null`;
     die "Could not remove group '$group':\n$rc" if ($?);
 }
 
@@ -53,7 +53,7 @@ sub sssd_group_exists {
     my $group = shift;
     my $ret = 1;
 
-    `sss_groupshow $group &> /dev/null`;
+    `sss_groupshow '$group' &> /dev/null`;
     $ret = 0 if ($?);
 
     return $ret;
@@ -68,7 +68,7 @@ sub add_group {
     # Skip if group already exists
     return if sssd_group_exists($group);
 
-    my $rc = `sss_groupadd $group 2>&1 >/dev/null`;
+    my $rc = `sss_groupadd '$group' 2>&1 >/dev/null`;
     die "Could not add group '$group':\n$rc" if ($?);
 }
 
@@ -78,7 +78,7 @@ sub _list_sssd_groupshow_members {
     my $group = shift;
     my $membertype = shift;
 
-    my @out = `sss_groupshow $group`;
+    my @out = `sss_groupshow '$group'`;
     return () if ($?);
 
     my @memberstr = grep /Member $membertype:/, @out;
@@ -117,7 +117,7 @@ sub groupmod_append_group {
     # So we can still catch all other sss_groupmod warnings/errors.
     return if grep { $_ eq $group } list_sssd_group_member_groups($group_member);
 
-    my $rc = `sss_groupmod --append-group $group_member $group 2>&1 >/dev/null`;
+    my $rc = `sss_groupmod --append-group '$group_member' '$group' 2>&1 >/dev/null`;
     die "Could not add group-member '$group_member' to group '$group':\n$rc" if ($?);
 }
 
@@ -131,7 +131,7 @@ sub groupmod_remove_group {
     # So we can still catch all other sss_groupmod warnings/errors.
     return unless grep { $_ eq $group } list_sssd_group_member_groups($group_member);
 
-    my $rc = `sss_groupmod --remove-group $group_member $group 2>&1 >/dev/null`;
+    my $rc = `sss_groupmod --remove-group '$group_member' '$group' 2>&1 >/dev/null`;
     die "Could not remove group-member'$group_member' to group '$group':\n$rc" if ($?);
 }
 
@@ -149,7 +149,7 @@ sub list_groups {
 sub delete_user {
     my $user = shift;
 
-    my $rc = `sss_userdel $user 2>&1 >/dev/null`;
+    my $rc = `sss_userdel '$user' 2>&1 >/dev/null`;
     #die "Could not remove user '$user':\n$rc" if ($?);
 }
 
@@ -190,7 +190,7 @@ sub user_add_group {
     # So we can still catch all other sss_usermod warnings/errors.
     return if grep { $_ eq $user } list_sssd_group_members($group);
 
-    my $rc = `sss_usermod --append-group $group $user 2>&1 >/dev/null`;
+    my $rc = `sss_usermod --append-group '$group' '$user' 2>&1 >/dev/null`;
     die "Could not add '$user' to group '$group':\n$rc" if ($?);
 }
 
@@ -203,7 +203,7 @@ sub user_remove_group {
     # Check if user is in that group at all
     return unless grep { $_ eq $user } list_sssd_group_members($group);
 
-    my $rc = `sss_usermod --remove-group $group $user 2>&1 >/dev/null`;
+    my $rc = `sss_usermod --remove-group '$group' '$user' 2>&1 >/dev/null`;
     die "Could not remove '$user' from group '$group':\n$rc" if ($?);
 }
 
@@ -212,7 +212,7 @@ sub user_remove_group {
 sub user_lock {
     my $user = shift;
 
-    my $rc = `sss_usermod --lock $user 2>&1 >/dev/null`;
+    my $rc = `sss_usermod --lock '$user' 2>&1 >/dev/null`;
     die "Could not lock user '$user':\n$rc" if ($?);
 }
 
@@ -220,7 +220,7 @@ sub user_lock {
 sub user_unlock {
     my $user = shift;
 
-    my $rc = `sss_usermod --unlock $user 2>&1 >/dev/null`;
+    my $rc = `sss_usermod --unlock '$user' 2>&1 >/dev/null`;
     die "Could not unlock user '$user':\n$rc" if ($?);
 }
 
@@ -270,7 +270,7 @@ sub update_user {
     `getent passwd '$user\@$SSSD_DOMAIN' &> /dev/null`;
     # There seems to be a bug in GECOS handing, if set empty. Then the user can no longer be removed
     if ($?) {
-        my $rc = `sss_useradd $gecos --no-create-home $user 2>&1 >/dev/null`;
+        my $rc = `sss_useradd $gecos --no-create-home '$user' 2>&1 >/dev/null`;
         die "Could not add user '$user':\n$rc" if ($?);
 
         user_add_group($user, $GENERIC_SERVICE_USER_GROUP);
