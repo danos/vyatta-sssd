@@ -1,6 +1,6 @@
 Source: vyatta-sssd
 Section: python
-Priority: extra
+Priority: optional
 Maintainer: Vyatta Package Maintainers <DL-vyatta-help@att.com>
 Build-Depends: debhelper (>= 9), python, dh-python, dh-systemd, dh-yang, python-setuptools, cpio
 Standards-Version: 3.9.8
