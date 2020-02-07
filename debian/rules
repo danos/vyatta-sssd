@@ -7,4 +7,4 @@ export PYBUILD_NAME=vyatta-sssd
 export PYBUILD_INSTALL_ARGS=--install-scripts=/opt/vyatta/sbin/
 
 %:
-	dh $@ --with=python2 --with=systemd --with=yang --buildsystem=pybuild
+	dh $@ --with=python3 --with=systemd --with=yang --buildsystem=pybuild

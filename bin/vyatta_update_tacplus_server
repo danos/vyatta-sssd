@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2019 AT&T intellectual property.
+# Copyright (c) 2019-2020 AT&T intellectual property.
 # All rights reserved.
 #
 # Copyright (c) 2014-2015 Brocade Communications Systems, Inc.

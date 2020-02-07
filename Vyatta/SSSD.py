@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright (c) 2019-2020 AT&T intellectual property.
@@ -164,7 +163,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 			ldap_domain.set_option(opt, 'false')
 
 		option_schema = ldap_domain.list_options()
-		for opt in options.iterkeys():
+		for opt in options:
 			if option_schema[opt][0] == bool:
 				ldap_domain.set_option(opt, 'true')
 			else:
@@ -184,7 +183,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 		tacplus_domain.set_active(True)
 
 		option_schema = tacplus_domain.list_options()
-		for opt in options.iterkeys():
+		for opt in options:
 			if option_schema[opt][0] == bool:
 				tacplus_domain.set_option(opt, 'true')
 			else:

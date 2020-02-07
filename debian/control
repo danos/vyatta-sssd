@@ -7,20 +7,15 @@ Build-Depends:
  dh-python,
  dh-systemd,
  dh-yang,
- python,
- python-setuptools
+ python3,
+ python3-setuptools
 Standards-Version: 3.9.8
 
-Package: python-vyatta-sssd
+Package: python3-vyatta-sssd
 Architecture: all
-Depends:
- libpam-sss,
- python,
- python-ipaddr,
- python-sss,
- ${misc:Depends},
- ${python:Depends}
-XB-Python-Version: ${python:Versions}
+Breaks: python-vyatta-sssd
+Replaces: python-vyatta-sssd
+Depends: libpam-sss, python3, python3-sss, ${misc:Depends}, ${python3:Depends}
 Description: Vyatta configuration wrapper for SSSD
  Vyatta configuration wrapper for System Secure Services Daemon.
  Used to manage service-users and others.
@@ -34,8 +29,8 @@ Depends:
  libnss-sss,
  libpam-runtime,
  lsb-base (>= 3.0-6),
- python,
- python-vyatta-sssd,
+ python3,
+ python3-vyatta-sssd,
  sssd-ldap,
  sssd-tools | sssd,
  vyatta-cfg,
