@@ -31,4 +31,3 @@ override_dh_auto_install:
 	install -m 755 bin/vyatta_tacacs_pam_auth_update $(DESTDIR)/$(sbindir)
 	python setup.py install --install-layout=deb --install-scripts=/opt/vyatta/sbin/ --prefix=/usr --root=$(PYTHON_DESTDIR)
 	find $(PYTHON_DESTDIR) -name "*.pyc" -delete
-	install -D --mode=0644 debian/lintian $(DESTDIR)/usr/share/lintian/overrides/vyatta-sssd-cfg
