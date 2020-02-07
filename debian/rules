@@ -8,7 +8,3 @@ export PYBUILD_INSTALL_ARGS=--install-scripts=/opt/vyatta/sbin/
 
 %:
 	dh $@ --with=python2 --with=systemd --with=yang --buildsystem=pybuild
-
-
-override_dh_installinit:
-	dh_installinit -- start  10 1 2 3
