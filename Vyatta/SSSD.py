@@ -216,6 +216,16 @@ class SSSD(SSSDConfig.SSSDConfig):
 		# the completion script. See Debian bug #825317.
 		# root is ignored by default so is also set here.
 		nss_serv.set_option("filter_users", "root,*")
+
+		# By default local users are kept in the negative cache for
+		# 4 hours. When there is a negative cache hit the data provider
+		# (eg. TACACS+) is not queried, which means we don't determine
+		# whether the provider is offline, which results in local user
+		# fallback not working reliably.
+		# Setting it to 0 means that all negative cache entries timeout
+		# according to entry_negative_timeout, which defaults to 15 seconds.
+		nss_serv.set_option("local_negative_timeout", 0)
+
 		self.save_service(nss_serv)
 
 
