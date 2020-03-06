@@ -199,6 +199,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 		tacplus_domain.set_option('min_id', '2000')
 		tacplus_domain.set_option('offline_timeout', '60')
 		tacplus_domain.set_option('offline_timeout_max', '0')
+		tacplus_domain.set_option('propagate_provider_error', 'true')
 
 
 		self.save_domain(tacplus_domain)
