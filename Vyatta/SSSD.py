@@ -191,15 +191,14 @@ class SSSD(SSSDConfig.SSSDConfig):
 
 		tacplus_domain.set_option('tacplus_shell', '/bin/vbash')
 		tacplus_domain.set_option('tacplus_service', 'vyatta-exec')
-		self.try_set_domain_option(tacplus_domain, 'tacplus_secrets', 'true')
+		tacplus_domain.set_option('tacplus_secrets', 'true')
 		tacplus_domain.set_option('tacplus_proto', 'login')
 		tacplus_domain.set_option('tacplus_user_gid', '100')
 		tacplus_domain.set_option('tacplus_homedir', '/var/tmp/aaa-home/%u')
 		tacplus_domain.set_option('entry_cache_user_timeout', '3600')
 		tacplus_domain.set_option('min_id', '2000')
 		tacplus_domain.set_option('offline_timeout', '60')
-		self.try_set_domain_option(tacplus_domain,
-			'offline_timeout_backoff', 'false')
+		tacplus_domain.set_option('offline_timeout_backoff', 'false')
 
 
 		self.save_domain(tacplus_domain)
