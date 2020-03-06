@@ -198,7 +198,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 		tacplus_domain.set_option('entry_cache_user_timeout', '3600')
 		tacplus_domain.set_option('min_id', '2000')
 		tacplus_domain.set_option('offline_timeout', '60')
-		tacplus_domain.set_option('offline_timeout_backoff', 'false')
+		tacplus_domain.set_option('offline_timeout_max', '0')
 
 
 		self.save_domain(tacplus_domain)
