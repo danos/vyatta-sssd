@@ -1,3 +1,4 @@
+bin/1050-sssd opt/vyatta/share/vyatta-op/functions/tech-support.d
 bin/vyatta_tacacs_pam_auth_update opt/vyatta/sbin
 bin/vyatta_update_local_service_users opt/vyatta/sbin
 bin/vyatta_update_service_user_pam_config opt/vyatta/sbin
