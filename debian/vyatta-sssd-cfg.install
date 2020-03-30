@@ -1,6 +1,6 @@
-bin/vyatta_update_local_service_users opt/vyatta/sbin
-bin/vyatta_update_service_users_config opt/vyatta/sbin
-bin/vyatta_update_service_user_pam_config opt/vyatta/sbin
-bin/vyatta_update_tacplus_server opt/vyatta/sbin
 bin/vyatta_tacacs_pam_auth_update opt/vyatta/sbin
+bin/vyatta_update_local_service_users opt/vyatta/sbin
+bin/vyatta_update_service_user_pam_config opt/vyatta/sbin
+bin/vyatta_update_service_users_config opt/vyatta/sbin
+bin/vyatta_update_tacplus_server opt/vyatta/sbin
 lib/Vyatta/* opt/vyatta/share/perl5/Vyatta
