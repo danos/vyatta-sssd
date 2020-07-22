@@ -1,6 +1,6 @@
 #!/bin/bash -e
 #
-# Copyright (c) 2019 AT&T intellectual property.
+# Copyright (c) 2019-2020 AT&T intellectual property.
 # All rights reserved.
 # 
 # Copyright (c) 2014, 2016-2017 Brocade Communications Systems, Inc.
@@ -31,7 +31,7 @@ Auth-Initial:
 Session-Type: Additional
 Session-Interactive-Only: yes
 Session:
-        required        pam_mkhomedir.so skel=/etc/skel/ umask=0022
+        optional        pam_mkhomedir.so skel=/etc/skel/ umask=0022
 Account-Type: Additional
 Account:
 EOF
