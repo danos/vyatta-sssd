@@ -1,3 +1,15 @@
+vyatta-sssd (0.51) unstable; urgency=medium
+
+  * Remove vyatta-sssd-cfg.init script
+  * Migrate to Python 3
+  * SSSD: Remove use of try_set_domain_option()
+  * Disable NSS local_negative_timeout
+  * SSSD: switch tacplus dom to offline_timeout_max
+  * SSSD: propagate errors from tacplus dom providers
+  * vyatta-sssd-tacacs: Make pam_mkhomedir.so optional
+
+ -- Duncan Eastoe <duncan.eastoe@att.com>  Tue, 28 Jul 2020 11:35:02 +0100
+
 vyatta-sssd (0.50) unstable; urgency=medium
 
   * Remove vyatta-system-login-sssd-noyang package
