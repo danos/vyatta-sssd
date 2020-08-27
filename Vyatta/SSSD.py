@@ -17,6 +17,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 	SCHEMA_API='/usr/share/doc/sssd/sssd.api.d'
 	SCHEMA_FILE='/usr/share/doc/sssd/sssd.api.conf'
 	SSSD_CONFIG = '/etc/sssd/sssd.conf'
+	SSSD_USER = 'sssd'
 
 	# Not yet requested sssd-ldap option are disabled for now
         # until requested.
@@ -108,7 +109,8 @@ class SSSD(SSSDConfig.SSSDConfig):
 		else:
 			self.new_config()
 
-		# Always perform setup of the NSS service
+		# Always perform setup of the SSSD and NSS services
+		self._setup_sssd()
 		self._setup_nss()
 
 	def try_set_domain_option(self, domain, opt, value):
@@ -204,6 +206,15 @@ class SSSD(SSSDConfig.SSSDConfig):
 
 		self.save_domain(tacplus_domain)
 
+	def _setup_sssd(self):
+		# Setup the [sssd] section
+		try:
+			sssd_serv = self.get_service("sssd")
+		except SSSDConfig.NoServiceError:
+			sssd_serv = self.new_service("sssd")
+
+		sssd_serv.set_option("user", self.SSSD_USER)
+		self.save_service(sssd_serv)
 
 	def _setup_nss(self):
 		try:
