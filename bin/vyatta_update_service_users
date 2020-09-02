@@ -31,7 +31,7 @@ class VyattaConfig(object):
 	def _popen(self, cmd):
 		return subprocess.Popen([self.VYATTA_CLI] + cmd, stdout=subprocess.PIPE)
 
-        # subprocess.check_output not available with python 2.6, but starting with 2.7
+	# subprocess.check_output not available with python 2.6, but starting with 2.7
 	def _check_output(self, cmd):
 		p = self._popen(cmd)
 		return p.communicate()[0]
@@ -119,7 +119,7 @@ account required pam_deny.so
 """
 
 	domain_str = ""
-        first_domain = True
+	first_domain = True
 	domain_list = []
 
 	for auth in auth_methods:
