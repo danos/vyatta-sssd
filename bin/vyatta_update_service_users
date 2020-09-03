@@ -29,7 +29,9 @@ class VyattaConfig(object):
 		self.level = None
 
 	def _popen(self, cmd):
-		return subprocess.Popen([self.VYATTA_CLI] + cmd, stdout=subprocess.PIPE)
+		return subprocess.Popen([self.VYATTA_CLI] + cmd,
+								stdout=subprocess.PIPE,
+								universal_newlines=True)
 
 	# subprocess.check_output not available with python 2.6, but starting with 2.7
 	def _check_output(self, cmd):
@@ -177,7 +179,9 @@ def main():
 
 		# In case of the local domain, clean-up first.
 		if domain == 'local':
-			p = subprocess.Popen([SCRIPT_UPDATE_LOCAL], stderr=subprocess.PIPE)
+			p = subprocess.Popen([SCRIPT_UPDATE_LOCAL],
+								 stderr=subprocess.PIPE,
+								 universal_newlines=True)
 			ret = p.communicate()
 			if p.returncode:
 				sys.stderr.write('Failed to clean-up local service-users:\n%s' % (ret[1]))
@@ -194,7 +198,9 @@ def main():
 			sssdobj.setup_local()
 			sssdobj.commit()
 
-			p = subprocess.Popen([SCRIPT_UPDATE_LOCAL], stderr=subprocess.PIPE)
+			p = subprocess.Popen([SCRIPT_UPDATE_LOCAL],
+								 stderr=subprocess.PIPE,
+								 universal_newlines=True)
 			ret = p.communicate()
 			if p.returncode:
 				sys.stderr.write('Failed to setup local service-users:\n%s' % (ret[1]))
