@@ -281,7 +281,7 @@ sub update_user {
     open my $fd => "| ldbmodify -H $SSSD_LDB -i &> /dev/null"
        or die "Could not set password for $user: $!";
 
-    print $fd "dn: name=$user,cn=users,cn=$SSSD_DOMAIN,cn=sysdb\n";
+    print $fd "dn: name=$user@".$SSSD_DOMAIN.",cn=users,cn=$SSSD_DOMAIN,cn=sysdb\n";
     print $fd "changetype: modify\n";
     print $fd "replace: userPassword\n";
     print $fd "userPassword: $password\n";
