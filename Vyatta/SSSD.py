@@ -214,6 +214,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 			sssd_serv = self.new_service("sssd")
 
 		sssd_serv.set_option("user", self.SSSD_USER)
+		sssd_serv.set_option("switch_user", 'true')
 		sssd_serv.set_option("services", ['nss'])
 		self.save_service(sssd_serv)
 

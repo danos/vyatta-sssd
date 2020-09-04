@@ -22,7 +22,7 @@ Description: Vyatta configuration wrapper for SSSD
 
 Package: vyatta-sssd-cfg
 Architecture: all
-Pre-Depends: sssd-common (>= 1.16.3-3danos1)
+Pre-Depends: sssd-common (>= 1.16.3-3danos4)
 Depends:
  ldb-tools,
  libauthen-pam-perl,
