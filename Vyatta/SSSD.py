@@ -214,6 +214,7 @@ class SSSD(SSSDConfig.SSSDConfig):
 			sssd_serv = self.new_service("sssd")
 
 		sssd_serv.set_option("user", self.SSSD_USER)
+		sssd_serv.set_option("services", ['nss'])
 		self.save_service(sssd_serv)
 
 	def _setup_nss(self):
@@ -271,11 +272,11 @@ exit 0
 			f.write(etc_default_sssd_content)
 
 		# Once the default/sssd configuration got written we invoke
-		# the SSSD init script.
+		# the SSSD service.
 		if len(self.list_domains()) > 0:
-			os.system('service sssd restart &> /dev/null');
+			os.system('systemctl restart sssd &> /dev/null');
 		else:
-			os.system('service sssd stop &> /dev/null');
+			os.system('systemctl stop sssd &> /dev/null');
 
 		os.setgid(prevGid)
 
