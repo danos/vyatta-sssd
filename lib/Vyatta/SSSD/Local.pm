@@ -34,7 +34,8 @@ our @EXPORT = qw(
 
 
 my $SSSD_DOMAIN = 'local';
-my $SSSD_LDB = '/var/lib/sss/db/sssd.ldb';
+my $SSSD_LDB = (-d '/var/lib/sss/db') ? '/var/lib/sss/db/sssd.ldb'
+                                      : '/run/sss/db/sssd.ldb';
 my $RESERVED_PREFIX = 'vyatta-';
 my $GENERIC_SERVICE_USER_GROUP = $RESERVED_PREFIX.'service-users';
 my $CONFIG_SPACE = 'resources service-users';
