@@ -1,3 +1,12 @@
+vyatta-sssd (0.52) unstable; urgency=medium
+
+  * vyatta_update_service_users: Use consistent indent
+  * vyatta_update_service_users: Use universal_newlines
+  * Local.pm: Use FQ name when updating user password
+  * Local.pm: Handle new database location
+
+ -- Duncan Eastoe <duncan.eastoe@att.com>  Tue, 08 Sep 2020 16:48:54 +0100
+
 vyatta-sssd (0.51) unstable; urgency=medium
 
   * Remove vyatta-sssd-cfg.init script
