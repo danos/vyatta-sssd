@@ -1,3 +1,11 @@
+vyatta-sssd (0.53) unstable; urgency=medium
+
+  * SSSD: Configure sssd to run as unprivileged user
+  * SSSD.py: Configure sssd to only start nss service
+  * SSSD.py: configure sssd process to switch user
+
+ -- Duncan Eastoe <duncan.eastoe@att.com>  Fri, 16 Oct 2020 16:56:04 +0100
+
 vyatta-sssd (0.52) unstable; urgency=medium
 
   * vyatta_update_service_users: Use consistent indent
