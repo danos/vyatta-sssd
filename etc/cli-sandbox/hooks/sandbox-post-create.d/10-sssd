@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if ! id -Gnz "$CLI_SANDBOX_USER" | grep -zq "^vyatta\.system\.user\.tacplus$"; then
+    # TACACS+ functionality is currently the only reason to
+    # bind mount the SSSD pipes in a user sandbox.
+    # So if the sandbox user is not a TACACS+ user there is
+    # nothing to do.
+    exit 0
+fi
+
+for d in "/run/sss/pipes" "/var/lib/sss/pipes"; do
+    if [ -d "$d" ]; then
+        cat >> "$CLI_SANDBOX_NSPAWN_TEMPLATE" <<EOF
+
+# Added by $0
+[Files]
+BindReadOnly=/etc/nsswitch.conf
+BindReadOnly=$d
+EOF
+
+        break
+    fi
+done
