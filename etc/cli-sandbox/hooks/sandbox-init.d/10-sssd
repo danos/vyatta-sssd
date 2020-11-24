@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for d in "/run/sss/pipes" "/var/lib/sss/pipes"; do
+    if [ -d "$d/private" ]; then
+        chmod 0700 "$d/private"
+        break
+    fi
+done

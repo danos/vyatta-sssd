@@ -9,13 +9,12 @@ if ! id -Gnz "$CLI_SANDBOX_USER" | grep -zq "^vyatta\.system\.user\.tacplus$"; t
 fi
 
 for d in "/run/sss/pipes" "/var/lib/sss/pipes"; do
-    if [ -d "$d" ]; then
+    if [ -e "$d/private/pam" ]; then
         cat >> "$CLI_SANDBOX_NSPAWN_TEMPLATE" <<EOF
 
 # Added by $0
 [Files]
-BindReadOnly=/etc/nsswitch.conf
-BindReadOnly=$d
+BindReadOnly=$d/private/pam
 EOF
 
         break
