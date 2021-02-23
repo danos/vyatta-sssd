@@ -1,9 +1,10 @@
 vyatta-sssd (0.54) unstable; urgency=medium
 
+  [ Duncan Eastoe ]
   * Add 10-sssd cli-sandbox post create hook script
   * Only mount privileged PAM pipe in sandboxes
 
- -- Duncan Eastoe <duncan.eastoe@att.com>  Wed, 25 Nov 2020 11:24:38 +0000
+ -- Daniel Gollub <dgollub@att.com>  Tue, 23 Feb 2021 21:29:18 +0100
 
 vyatta-sssd (0.53) unstable; urgency=medium
 
