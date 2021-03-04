@@ -3,9 +3,8 @@ Section: python
 Priority: optional
 Maintainer: Vyatta Package Maintainers <DL-vyatta-help@att.com>
 Build-Depends:
- debhelper (>= 9),
+ debhelper (>= 9.20160709),
  dh-python,
- dh-systemd,
  dh-yang,
  python3,
  python3-setuptools
