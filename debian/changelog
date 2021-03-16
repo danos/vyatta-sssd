@@ -1,3 +1,10 @@
+vyatta-sssd (0.55) unstable; urgency=medium
+
+  [ Nicholas Brown ]
+  * dh-systemd is part of debhelper
+
+ -- Daniel Gollub <dgollub@att.com>  Tue, 16 Mar 2021 15:06:12 +0100
+
 vyatta-sssd (0.54) unstable; urgency=medium
 
   [ Duncan Eastoe ]
